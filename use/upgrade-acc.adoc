@@ -487,6 +487,18 @@ spec:
   accountName: "Example"
   *astraVersion: "[Version number]"*
 ----
+. 變更Astra版本號碼 (`astraVersion` 內部 `spec`）自 `23.07.0` 至 `23.10.0`：
++
+
+NOTE: 您無法直接從目前版本之後的兩個或更多版本升級。如需已發行版本的完整清單、請參閱 link:../release-notes/whats-new.html["版本資訊"]。
+
++
+[listing, subs="+quotes"]
+----
+spec:
+  accountName: "Example"
+  *astraVersion: "[Version number]"*
+----
 . 確認您的映像登錄路徑符合您在中推送映像的登錄路徑 <<將映像新增至本機登錄,上一步>>。更新 `imageRegistry` 內部 `spec` 如果登錄自上次安裝後有所變更。
 +
 [listing]
