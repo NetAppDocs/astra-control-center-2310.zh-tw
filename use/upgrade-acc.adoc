@@ -479,14 +479,6 @@ kubectl get pods -n netapp-acc-operator
 ----
 kubectl edit AstraControlCenter -n [netapp-acc or custom namespace]
 ----
-. 變更Astra版本號碼 (`astraVersion` 內部 `spec`）升級至您要升級的版本：
-+
-[listing, subs="+quotes"]
-----
-spec:
-  accountName: "Example"
-  *astraVersion: "[Version number]"*
-----
 . 變更Astra版本號碼 (`astraVersion` 內部 `spec`）自 `23.07.0` 至 `23.10.0`：
 +
 
