@@ -1,0 +1,67 @@
+---
+sidebar: sidebar 
+permalink: concepts/architecture.html 
+keywords: what is astra, astra control, astra control architecture, astra control center, astra control service, kubernetes, netapp, clusters, astra trident 
+summary: 以下概述Astra Control環境的各個元件。 
+---
+= 架構與元件
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/concepts/
+
+
+[role="lead"]
+以下概述Astra Control環境的各個元件。
+
+image:astra-architecture-diagram-v5.png["描述 Astra Control 架構及其元件的概念影像"]
+
+
+
+== Astra控制元件
+
+* * Kubernetes叢集*：Kubernetes是可攜式、可擴充的開放原始碼平台、可用於管理容器化工作負載與服務、同時促進宣告式組態與自動化。Astra為Kubernetes叢集中託管的應用程式提供管理服務。
+* * Astra Trident *：Astra Trident *是完全受支援的開放原始碼儲存資源配置程式、由NetApp維護、可讓您為Docker和Kubernetes所管理的容器化應用程式建立儲存磁碟區。Astra Trident部署於Astra Control Center時、包含已設定ONTAP 的整套儲存後端。
+* *儲存後端*：
++
+** Astra Control Service使用下列儲存後端：
++
+*** https://www.netapp.com/cloud-services/cloud-volumes-service-for-google-cloud/["適用於Cloud Volumes Service Google Cloud的NetApp解決方案"^] 或Google持續磁碟做為GKE叢集的儲存後端
+*** https://www.netapp.com/cloud-services/azure-netapp-files/["Azure NetApp Files"^] 或Azure託管磁碟做為高效能叢集的儲存後端。
+*** https://docs.aws.amazon.com/ebs/["Amazon彈性區塊儲存區（EBS）"^] 或 https://docs.aws.amazon.com/fsx/["Amazon FSX for NetApp ONTAP 產品"^] 作為EKS叢集的後端儲存選項。
+
+
+** Astra Control Center使用下列儲存後端：
++
+*** 不只是部分、不只是部分、更是部分ASA FAS ONTAP AFF 。作為儲存軟體與硬體平台ONTAP 、支援核心儲存服務、支援多種儲存存取傳輸協定、以及快照與鏡射等儲存管理功能。
+*** Cloud Volumes ONTAP
+
+
+
+
+* * Cloud Insights * ： Cloud Insights 是 NetApp 雲端基礎架構監控工具、可讓您監控 Astra 控制中心所管理的 Kubernetes 叢集的效能與使用率。可將儲存使用量與工作負載建立關聯。Cloud Insights當您在Cloud Insights Astra控制中心啟用「支援不中斷連線」時、遙測資訊會顯示在Astra控制中心UI頁面中。
+
+
+
+
+== Astra控制介面
+
+您可以使用不同的介面來完成工作：
+
+* *網路使用者介面（UI）*：Astra Control Service和Astra Control Center都使用相同的網路型UI來管理、移轉及保護應用程式。也可以使用UI來管理使用者帳戶和組態設定。
+* * API*：Astra Control Service和Astra Control Center都使用相同的Astra Control API。使用API、您可以執行與使用UI相同的工作。
+
+
+Astra Control Center也能讓您管理、移轉及保護在VM環境中執行的Kubernetes叢集。
+
+
+
+== 以取得更多資訊
+
+* https://docs.netapp.com/us-en/astra/index.html["Astra Control Service文件"^]
+* https://docs.netapp.com/us-en/astra-control-center/index.html["Astra Control Center文件"^]
+* https://docs.netapp.com/us-en/trident/index.html["Astra Trident文件"^]
+* https://docs.netapp.com/us-en/astra-automation["使用Astra Control API"^]
+* https://docs.netapp.com/us-en/cloudinsights/["本文檔 Cloud Insights"^]
+* https://docs.netapp.com/us-en/ontap/index.html["本文檔 ONTAP"^]
+

@@ -1,0 +1,67 @@
+---
+sidebar: sidebar 
+permalink: use/unmanage.html 
+keywords: unmanage app, remove app, stop managing app, stop managing clusters, unmanage cluster, remove cluster, kubernetes, astra, astra control 
+summary: 從Astra Control移除不再需要管理的任何應用程式或運算。 
+---
+= 取消管理應用程式和叢集
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/use/
+
+
+[role="lead"]
+從Astra Control Center移除不再需要管理的任何應用程式或叢集。
+
+
+
+== 取消管理應用程式
+
+停止管理不再想從Astra Control Center備份、快照或複製的應用程式。
+
+當您取消管理應用程式時：
+
+* 任何現有的備份與快照都會刪除。
+* 應用程式與資料仍可繼續使用。
+
+
+.步驟
+. 從左側導覽列選取*應用程式*。
+. 選取應用程式。
+. 從「動作」欄的「選項」功能表中、選取*「取消管理」*。
+. 檢閱資訊。
+. 輸入「unManage（取消管理）」以確認。
+. 選擇*是、取消管理應用程式*。
+
+
+.結果
+Astra Control Center停止管理應用程式。
+
+
+
+== 取消管理叢集
+
+停止從Astra Control Center管理您不想再管理的叢集。
+
+
+NOTE: 在取消管理叢集之前、您應該取消管理與叢集相關的應用程式。
+
+當您取消管理叢集時：
+
+* 此動作可防止您的叢集受到Astra Control Center的管理。它不會對叢集的組態進行任何變更、也不會刪除叢集。
+* Astra Trident不會從叢集解除安裝。 https://docs.netapp.com/us-en/trident/trident-managing-k8s/uninstall-trident.html["瞭解如何解除安裝Astra Trident"^]。
+
+
+.步驟
+. 從左側導覽列選取*叢集*。
+. 選取您不想再管理之叢集的核取方塊。
+. 從「*動作*」欄的「選項」功能表中、選取「*取消管理*」。
+. 確認您要取消管理叢集、然後選取*是、取消管理叢集*。
+
+
+.結果
+叢集的狀態會變更為*移除*。之後、叢集就會從「*叢集*」頁面移除、而且不再由Astra Control Center管理。
+
+
+IMPORTANT: *如果Astra Control Center和Cloud Insights Sfunk*未連線、取消叢集管理會移除所有安裝用於傳送遙測資料的資源。*如果Astra Control Center和Cloud Insights Sf1*已連線、則取消管理叢集只會刪除 `fluentbit` 和 `event-exporter` Pod：

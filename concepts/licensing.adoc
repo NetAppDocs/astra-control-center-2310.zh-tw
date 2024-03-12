@@ -1,0 +1,65 @@
+---
+sidebar: sidebar 
+permalink: concepts/licensing.html 
+keywords: license, licensing 
+summary: 瞭解Astra Control Center可執行的行動、會因授權狀態而異、以及Astra Control Center的使用如何影響授權使用量。 
+---
+= 授權
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/concepts/
+
+
+[role="lead"]
+當您部署 Astra Control Center 時、系統會安裝內嵌式 90 天試用版授權、適用於 4 、 800 個 CPU 單元。如果您需要更多容量或更長的評估期、或想要升級至完整授權、您可以向 NetApp 取得不同的評估授權或完整授權。
+
+您可以使用下列其中一種方式取得授權：
+
+* 如果您正在評估 Astra Control Center 、並需要不同於內嵌評估授權所含的評估條款、請聯絡 NetApp 以申請不同的評估授權檔案。
+* link:https://mysupport.netapp.com/site/["如果您已購買Astra Control Center、請產生您的NetApp授權檔案（NLF）"^] 登入 NetApp 支援網站 並瀏覽至系統功能表下的軟體授權。
+
+
+如需ONTAP 有關支援不支援的詳細資訊、請參閱 link:../get-started/requirements.html["支援的儲存後端"]。
+
+
+NOTE: 請確定您的授權至少能啟用所需的 CPU 單位。如果 Astra Control Center 目前所管理的 CPU 單位數量超過所套用新授權中的可用 CPU 單位、您將無法套用新授權。
+
+
+
+== 評估授權與完整授權
+
+內嵌評估授權隨附全新的 Astra Control Center 安裝。評估授權可在有限（ 90 天）期間內、提供與完整授權相同的功能與功能。評估期結束後、必須取得完整授權才能繼續使用完整功能。
+
+
+
+== 授權過期
+
+如果作用中的 Astra Control Center 授權過期、下列功能的 UI 和 API 功能將無法使用：
+
+* 手動本機快照與備份
+* 排程的本機快照與備份
+* 從快照或備份還原
+* 從快照或目前狀態複製
+* 管理新應用程式
+* 設定複寫原則
+
+
+
+
+== 如何計算授權使用量
+
+當您將新叢集新增至Astra Control Center時、除非至少有一個執行於叢集上的應用程式由Astra Control Center管理、否則它不會將使用的授權列入計算。
+
+當您開始管理叢集上的應用程式時、 Astra Control Center 的所有 CPU 單元都會包含在 Astra Control Center 授權使用量中、但 Red Hat OpenShift 叢集節點 CPU 單元則會使用標籤回報 `node-role.kubernetes.io/infra: ""`。
+
+
+NOTE: Red Hat OpenShift 基礎架構節點不會使用 Astra Control Center 中的授權。若要將節點標記為基礎架構節點、請套用標籤 `node-role.kubernetes.io/infra: ""` 至節點。
+
+
+
+== 如需詳細資訊、請參閱
+
+* link:../get-started/setup_overview.html#add-a-license-for-astra-control-center["第一次設定Astra Control Center時、請新增授權"]
+* link:../use/update-licenses.html["更新現有授權"]
+

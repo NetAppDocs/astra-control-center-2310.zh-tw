@@ -1,0 +1,125 @@
+---
+sidebar: sidebar 
+permalink: release-notes/known-issues.html 
+keywords: astra, control center, bugs, known issues, problems 
+summary: 已知問題可識別可能導致您無法成功使用本產品版本的問題。 
+---
+= 已知問題
+:hardbreaks:
+:allow-uri-read: 
+:source-highlighter: highlight.js
+:icons: font
+:imagesdir: ../media/release-notes/
+
+
+[role="lead"]
+已知問題可識別可能導致您無法成功使用本產品版本的問題。
+
+下列已知問題會影響目前的版本：
+
+* <<如果在管理叢集之後新增volumesnapshotClass、則應用程式備份和快照將會失敗>>
+* <<使用 Astra Control Center 管理叢集時、如果 Kribeconfig 檔案包含多個內容、就會失敗>>
+* <<監控 Pod 可能會在 Istio 環境中當機>>
+* <<當Astra Trident離線時、應用程式資料管理作業會因內部服務錯誤（500）而失敗>>
+* <<ONTAP NAS 經濟型儲存類別的就地還原作業失敗>>
+* <<使用 Kerberos 進行中加密時、從備份還原可能會失敗>>
+* <<刪除保留原則過期的貯體後、備份資料仍保留在貯體中>>
+
+
+
+
+== 如果在管理叢集之後新增volumesnapshotClass、則應用程式備份和快照將會失敗
+
+備份與快照無法使用 `UI 500 error` 在此案例中。因應措施是重新整理應用程式清單。
+
+
+
+== 使用 Astra Control Center 管理叢集時、如果 Kribeconfig 檔案包含多個內容、就會失敗
+
+您無法在其中使用多個叢集和內容的Kbeconfig。請參閱 link:https://kb.netapp.com/Cloud/Astra/Control/Managing_cluster_with_Astra_Control_Center_may_fail_when_using_default_kubeconfig_file_contains_more_than_one_context["知識庫文章"^] 以取得更多資訊。
+
+
+
+== 監控 Pod 可能會在 Istio 環境中當機
+
+如果您在 Istio 環境中將 Astra Control Center 與 Cloud Insights 配對 `telegraf-rs` Pod 可能當機。因應措施是執行下列步驟：
+
+. 尋找當機的 Pod ：
++
+[listing]
+----
+kubectl -n netapp-monitoring get pod | grep Error
+----
++
+您應該會看到類似下列的輸出：
+
++
+[listing]
+----
+NAME READY STATUS RESTARTS AGE
+telegraf-rs-fhhrh 1/2 Error 2 (26s ago) 32s
+----
+. 重新啟動當機的 Pod 、更換 `<pod_name_from_output>` 使用受影響 Pod 的名稱：
++
+[listing]
+----
+kubectl -n netapp-monitoring delete pod <pod_name_from_output>
+----
++
+您應該會看到類似下列的輸出：
+
++
+[listing]
+----
+pod "telegraf-rs-fhhrh" deleted
+----
+. 確認 Pod 已重新啟動、且未處於錯誤狀態：
++
+[listing]
+----
+kubectl -n netapp-monitoring get pod
+----
++
+您應該會看到類似下列的輸出：
+
++
+[listing]
+----
+NAME READY STATUS RESTARTS AGE
+telegraf-rs-rrnsb 2/2 Running 0 11s
+----
+
+
+
+
+== 當Astra Trident離線時、應用程式資料管理作業會因內部服務錯誤（500）而失敗
+
+如果應用程式叢集上的Astra Trident離線（並重新連線）、而且在嘗試應用程式資料管理時遇到500個內部服務錯誤、請重新啟動應用程式叢集中的所有Kubernetes節點、以還原功能。
+
+
+
+== ONTAP NAS 經濟型儲存類別的就地還原作業失敗
+
+如果您執行應用程式的就地還原（將應用程式還原至其原始命名空間）、應用程式的儲存類別會使用 `ontap-nas-economy` 驅動程式、如果未隱藏快照目錄、還原作業可能會失敗。在就地還原之前、請遵循中的指示 link:../use/protect-apps.html#enable-backup-and-restore-for-ontap-nas-economy-operations["啟用 ONTAP NAS 經濟營運的備份與還原"^] 可隱藏 Snapshot 目錄。
+
+
+
+== 使用 Kerberos 進行中加密時、從備份還原可能會失敗
+
+當您將應用程式從備份還原至使用 Kerberos 進行中加密的儲存後端時、還原作業可能會失敗。此問題不會影響從快照還原或使用 NetApp SnapMirror 複寫應用程式資料。
+
+
+NOTE: 在 NFSv4 磁碟區時使用 Kerberos 進行中加密時、請確定 NFSv4 磁碟區使用的是正確的設定。請參閱的「 NetApp NFSv4 網域組態」一節（第 13 頁） https://www.netapp.com/media/16398-tr-3580.pdf["NetApp NFSv4 增強與最佳實務指南"^]。
+
+
+
+== 刪除保留原則過期的貯體後、備份資料仍保留在貯體中
+
+如果您在貯體保留原則過期後刪除應用程式的不可變備份、則備份會從 Astra Control 刪除、但不會從貯體中刪除。此問題將在即將發行的版本中修正。
+
+
+
+== 如需詳細資訊、請參閱
+
+* link:../release-notes/known-limitations.html["已知限制"]
+

@@ -1,0 +1,45 @@
+---
+settings:
+  name: Astra Control Center
+  internal:
+    pdf_enabled: true
+  prod:
+    pdf_enabled: true
+    harmony_enabled: false
+  rss_page: release-notes/whats-new.html
+  versions:
+  - version-number: '23.10'
+    url: "/astra-control-center-2310"
+  - version-number: '24.02'
+    url: "/astra-control-center"
+  - version-number: '23.07'
+    url: "/astra-control-center-2307"
+  - version-number: '23.04'
+    url: "/astra-control-center-2304"
+  - version-number: '22.11'
+    url: "/astra-control-center-2211"
+  - version-number: '22.08'
+    url: "/astra-control-center-2208"
+  - version-number: '22.04'
+    url: "/astra-control-center-2204"
+  - version-number: '21.12'
+    url: "/astra-control-center-2112"
+  langs: zh-tw,us-en,ja-jp,ko-kr,zh-cn,de-de,es-es,fr-fr,it-it
+sidebar:
+  entries:
+  - title: Astra Control Center 23.10 文件
+    url: "/index.html"
+  - section: release-notes
+  - section: get-started
+  - section: concepts
+  - section: use
+  - section: use-acp
+  - section: rest-api
+  - section: support
+  - title: 舊版
+    url: "/acc-earlier-versions.html"
+  - title: 法律聲明
+    url: "/legal-notices.html"
+product-family:
+  name: Astra
+  repo: astra-family

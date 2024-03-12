@@ -1,0 +1,162 @@
+---
+sidebar: sidebar 
+permalink: use/manage-buckets.html 
+keywords: how to set up object storage in astra, how to set up astra buckets, s3, astra, setting up astra control, astra control center, kubernetes 
+summary: 如果您想要備份應用程式和持續儲存設備、或是想要跨叢集複製應用程式、則必須新增物件存放區資源庫供應商。 
+---
+= 管理儲存庫
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/use/
+
+
+[role="lead"]
+如果您想要備份應用程式和持續儲存設備、或是想要跨叢集複製應用程式、物件存放區供應商是不可或缺的。使用Astra Control Center、新增物件存放區供應商做為您的應用程式離叢集備份目的地。
+
+如果您要將應用程式組態和持續儲存設備複製到同一個叢集、則不需要儲存庫。
+
+請使用下列其中一家Amazon Simple Storage Service（S3）資源庫供應商：
+
+* NetApp ONTAP 產品S3
+* NetApp StorageGRID 產品S3
+* Microsoft Azure
+* 一般S3
++
+
+NOTE: Amazon Web Services（AWS）和Google Cloud Platform（GCP）使用通用S3儲存區類型。
+
++
+
+NOTE: 雖然Astra Control Center支援Amazon S3做為通用S3儲存區供應商、但Astra Control Center可能不支援所有聲稱Amazon S3支援的物件儲存區廠商。
+
+
+
+儲存庫可以位於下列其中一種狀態：
+
+* 擱置中：已排定要探索的儲存區。
+* 可用：鏟斗可供使用。
+* 已移除：目前無法存取貯體。
+
+
+如需如何使用Astra Control API管理儲存區的指示、請參閱 link:https://docs.netapp.com/us-en/astra-automation/["Astra Automation和API資訊"^]。
+
+您可以執行與管理儲存庫相關的工作：
+
+* link:../get-started/setup_overview.html#add-a-bucket["新增儲存庫"]
+* <<編輯儲存庫>>
+* <<設定預設儲存區>>
+* <<旋轉或移除庫位認證資料>>
+* <<移除貯體>>
+
+
+
+NOTE: Astra Control Center中的S3鏟斗未報告可用容量。在備份或複製由Astra Control Center管理的應用程式之前、請先查看ONTAP 資訊庫（英文）或StorageGRID 資訊庫（英文）管理系統中的庫位資訊。
+
+
+
+== 編輯儲存庫
+
+您可以變更儲存區的存取認證資訊、並變更所選儲存區是否為預設儲存區。
+
+
+NOTE: 新增儲存庫時、請選擇正確的儲存庫供應商、並提供該供應商的適當認證資料。例如、UI接受NetApp ONTAP S3作為類型並接受StorageGRID 驗證、但這將導致所有未來使用此儲存庫的應用程式備份與還原失敗。請參閱 link:../release-notes/known-issues.html#selecting-a-bucket-provider-type-with-credentials-for-another-type-causes-data-protection-failures["版本資訊"]。
+
+.步驟
+. 從左側導覽中、選取*鏟斗*。
+. 從「*動作*」欄的功能表中、選取*編輯*。
+. 變更儲存桶類型以外的任何資訊。
++
+
+TIP: 您無法修改貯體類型。
+
+. 選擇*更新*。
+
+
+
+
+== 設定預設儲存區
+
+當您跨叢集執行實體複本時、Astra Control需要預設的儲存區。請依照下列步驟為所有叢集設定預設儲存區。
+
+.步驟
+. 轉至* Cloud Instances *。
+. 選取清單中雲端執行個體*「Actions」（動作）欄中的功能表。
+. 選擇*編輯*。
+. 在* Bucket *清單中、選取您要做為預設值的儲存區。
+. 選擇*保存*。
+
+
+
+
+== 旋轉或移除庫位認證資料
+
+Astra Control使用儲存區認證來取得S3儲存區的存取權、並提供密碼金鑰、以便Astra Control Center能夠與儲存區通訊。
+
+
+
+=== 旋轉儲存庫認證資料
+
+如果您旋轉認證資料、請在維護期間（排程或隨需）無備份進行時、於維護期間旋轉認證資料。
+
+.編輯及旋轉認證的步驟
+. 從左側導覽中、選取*鏟斗*。
+. 從「*動作*」欄的「選項」功能表中、選取「*編輯*」。
+. 建立新認證資料。
+. 選擇*更新*。
+
+
+
+
+=== 移除庫位認證資料
+
+只有在新認證已套用至庫位、或庫位已不再有效使用時、才應移除庫位認證。
+
+
+TIP: 您新增至Astra Control的第一組認證資料一律使用中、因為Astra Control使用認證資料來驗證備份儲存區。如果儲存區正在使用中、請勿移除這些認證資料、因為這會導致備份失敗和備份不可用。
+
+
+NOTE: 如果您確實移除作用中的儲存區認證、請參閱 https://kb.netapp.com/Cloud/Astra/Control/Deleting_active_S3_bucket_credentials_leads_to_spurious_500_errors_reported_in_the_UI["移除庫位認證疑難排解"]。
+
+如需如何使用Astra Control API移除S3認證的指示、請參閱 link:https://docs.netapp.com/us-en/astra-automation/["Astra Automation和API資訊"^]。
+
+
+
+== 移除貯體
+
+您可以移除不再使用或不健全的庫位。您可能會想要這麼做、讓物件存放區組態保持簡單且最新狀態。
+
+[NOTE]
+====
+* 您無法移除預設的儲存區。如果您要移除該儲存區、請先選取另一個儲存區做為預設值。
+* 在儲存庫的雲端供應商保留期間到期之前、您無法移除一次寫入多次讀取（ WORM ）儲存庫。WORM 貯體名稱旁邊會以「鎖定」表示。
+
+
+====
+* 您無法移除預設的儲存區。如果您要移除該儲存區、請先選取另一個儲存區做為預設值。
+
+
+.開始之前
+* 開始之前、您應檢查以確保此儲存區沒有執行中或已完成的備份。
+* 您應檢查以確保儲存庫未用於任何作用中的保護原則。
+
+
+如果有、您將無法繼續。
+
+.步驟
+. 從左側導覽中選取*鏟斗*。
+. 從* Actions（操作）*功能表中、選取*移除*。
++
+
+NOTE: Astra Control會先確保不會有使用儲存庫進行備份的排程原則、而且您要移除的儲存庫中沒有作用中的備份。
+
+. 輸入「移除」以確認動作。
+. 選擇*是、移除桶*。
+
+
+
+
+== 如需詳細資訊、請參閱
+
+* https://docs.netapp.com/us-en/astra-automation["使用Astra Control API"^]
+

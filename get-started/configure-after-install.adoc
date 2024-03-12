@@ -1,0 +1,278 @@
+---
+sidebar: sidebar 
+permalink: get-started/configure-after-install.html 
+keywords: configure, installation, install, after, Astra Control Center, 
+summary: 視您的環境而定、安裝Astra Control Center之後可能需要額外的組態。 
+---
+= 安裝後設定Astra Control Center
+:hardbreaks:
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/get-started/
+
+
+[role="lead"]
+視您的環境而定、安裝Astra Control Center之後可能需要額外的組態。
+
+
+
+== 移除資源限制
+
+某些環境使用資源配額和限制範圍物件、以防止命名空間中的資源消耗叢集上的所有可用CPU和記憶體。Astra Control Center並未設定上限、因此不符合這些資源。如果您的環境是以這種方式設定、則需要從您打算安裝Astra Control Center的命名空間中移除這些資源。
+
+您可以使用下列步驟擷取及移除這些配額和限制。在這些範例中、命令輸出會在命令之後立即顯示。
+
+.步驟
+. 取得中的資源配額 `netapp-acc` （或自訂命名）命名空間：
++
+[source, console]
+----
+kubectl get quota -n [netapp-acc or custom namespace]
+----
++
+回應：
+
++
+[listing]
+----
+NAME          AGE   REQUEST                                        LIMIT
+pods-high     16s   requests.cpu: 0/20, requests.memory: 0/100Gi   limits.cpu: 0/200, limits.memory: 0/1000Gi
+pods-low      15s   requests.cpu: 0/1, requests.memory: 0/1Gi      limits.cpu: 0/2, limits.memory: 0/2Gi
+pods-medium   16s   requests.cpu: 0/10, requests.memory: 0/20Gi    limits.cpu: 0/20, limits.memory: 0/200Gi
+----
+. 依名稱刪除所有資源配額：
++
+[source, console]
+----
+kubectl delete resourcequota pods-high -n [netapp-acc or custom namespace]
+----
++
+[source, console]
+----
+kubectl delete resourcequota pods-low -n [netapp-acc or custom namespace]
+----
++
+[source, console]
+----
+kubectl delete resourcequota pods-medium -n [netapp-acc or custom namespace]
+----
+. 取得中的限制範圍 `netapp-acc` （或自訂命名）命名空間：
++
+[source, console]
+----
+kubectl get limits -n [netapp-acc or custom namespace]
+----
++
+回應：
+
++
+[listing]
+----
+NAME              CREATED AT
+cpu-limit-range   2022-06-27T19:01:23Z
+----
+. 依名稱刪除限制範圍：
++
+[source, console]
+----
+kubectl delete limitrange cpu-limit-range -n [netapp-acc or custom namespace]
+----
+
+
+
+
+== 新增自訂TLS憑證
+
+Astra Control Center預設使用自我簽署的TLS憑證來處理入站控制器流量（僅適用於特定組態）、以及使用網頁瀏覽器進行Web UI驗證。您可以移除現有的自我簽署TLS憑證、並以由憑證授權單位（CA）簽署的TLS憑證取代。
+
+[NOTE]
+====
+預設的自我簽署憑證可用於兩種類型的連線：
+
+* HTTPS連線至Astra Control Center網路UI
+* 入口控制器流量（僅當 `ingressType: "AccTraefik"` 內容已在中設定 `astra_control_center.yaml` 安裝Astra Control Center期間的檔案）
+
+
+取代預設TLS憑證會取代用於驗證這些連線的憑證。
+
+====
+.開始之前
+* Kubernetes叢集已安裝Astra Control Center
+* 管理存取叢集上要執行的命令Shell `kubectl` 命令
+* 來自CA的私密金鑰和憑證檔案
+
+
+
+
+=== 移除自我簽署的憑證
+
+移除現有的自我簽署TLS憑證。
+
+. 使用SSH、以管理使用者身分登入裝載Astra Control Center的Kubernetes叢集。
+. 使用下列取代命令尋找與目前憑證相關的TLS密碼 `<ACC-deployment-namespace>` 使用Astra Control Center部署命名空間：
++
+[source, console]
+----
+kubectl get certificate -n <ACC-deployment-namespace>
+----
+. 使用下列命令刪除目前安裝的機密與憑證：
++
+[source, console]
+----
+kubectl delete cert cert-manager-certificates -n <ACC-deployment-namespace>
+----
++
+[source, console]
+----
+kubectl delete secret secure-testing-cert -n <ACC-deployment-namespace>
+----
+
+
+
+
+=== 使用命令列新增憑證
+
+新增由CA簽署的TLS憑證。
+
+. 使用下列命令以CA的私密金鑰和憑證檔案建立新的TLS秘密，並以適當的資訊取代括弧<>中的引數：
++
+[source, console]
+----
+kubectl create secret tls <secret-name> --key <private-key-filename> --cert <certificate-filename> -n <ACC-deployment-namespace>
+----
+. 使用下列命令和範例編輯叢集自訂資源定義（CRD）檔案、然後變更 `spec.selfSigned` 價值 `spec.ca.secretName` 若要參考您先前建立的TLS秘密：
++
+[source, console]
+----
+kubectl edit clusterissuers.cert-manager.io/cert-manager-certificates -n <ACC-deployment-namespace>
+----
++
+客戶需求日：
+
++
+[listing]
+----
+#spec:
+#  selfSigned: {}
+
+spec:
+  ca:
+    secretName: <secret-name>
+----
+. 使用下列命令和輸出範例來驗證變更是否正確、以及叢集是否已準備好驗證憑證、取代 `<ACC-deployment-namespace>` 使用Astra Control Center部署命名空間：
++
+[source, yaml]
+----
+kubectl describe clusterissuers.cert-manager.io/cert-manager-certificates -n <ACC-deployment-namespace>
+----
++
+回應：
+
++
+[listing]
+----
+Status:
+  Conditions:
+    Last Transition Time:  2021-07-01T23:50:27Z
+    Message:               Signing CA verified
+    Reason:                KeyPairVerified
+    Status:                True
+    Type:                  Ready
+Events:                    <none>
+----
+. 建立 `certificate.yaml` 使用下列範例將方括弧<>中的預留位置值取代為適當資訊的檔案：
++
+[source, yaml, subs="+quotes"]
+----
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  *name: <certificate-name>*
+  namespace: <ACC-deployment-namespace>
+spec:
+  *secretName: <certificate-secret-name>*
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  dnsNames:
+  *- <astra.dnsname.example.com>* #Replace with the correct Astra Control Center DNS address
+  issuerRef:
+    kind: ClusterIssuer
+    name: cert-manager-certificates
+----
+. 使用下列命令建立憑證：
++
+[source, console]
+----
+kubectl apply -f certificate.yaml
+----
+. 使用下列命令和範例輸出來驗證憑證是否已正確建立、以及是否已使用您在建立期間所指定的引數（例如名稱、持續時間、續約期限及DNS名稱）。
++
+[source, console]
+----
+kubectl describe certificate -n <ACC-deployment-namespace>
+----
++
+回應：
+
++
+[listing]
+----
+Spec:
+  Dns Names:
+    astra.example.com
+  Duration:  125h0m0s
+  Issuer Ref:
+    Kind:        ClusterIssuer
+    Name:        cert-manager-certificates
+  Renew Before:  61h0m0s
+  Secret Name:   <certificate-secret-name>
+Status:
+  Conditions:
+    Last Transition Time:  2021-07-02T00:45:41Z
+    Message:               Certificate is up to date and has not expired
+    Reason:                Ready
+    Status:                True
+    Type:                  Ready
+  Not After:               2021-07-07T05:45:41Z
+  Not Before:              2021-07-02T00:45:41Z
+  Renewal Time:            2021-07-04T16:45:41Z
+  Revision:                1
+Events:                    <none>
+----
+. 編輯 TLS 儲存 CRD 以使用下列命令和範例指向您的新憑證密碼名稱、以適當的資訊取代括弧 <> 中的預留位置值
++
+[listing]
+----
+kubectl edit tlsstores.traefik.io -n <ACC-deployment-namespace>
+----
++
+客戶需求日：
+
++
+[listing]
+----
+...
+spec:
+  defaultCertificate:
+    secretName: <certificate-secret-name>
+----
+. 編輯「入口CRD TLS」選項、使用下列命令和範例指向新的憑證密碼、並以適當的資訊取代方括弧<>中的預留位置值：
++
+[listing]
+----
+kubectl edit ingressroutes.traefik.io -n <ACC-deployment-namespace>
+----
++
+客戶需求日：
+
++
+[listing]
+----
+...
+ tls:
+    secretName: <certificate-secret-name>
+----
+. 使用網頁瀏覽器瀏覽至Astra Control Center的部署IP位址。
+. 確認憑證詳細資料與您安裝的憑證詳細資料相符。
+. 匯出憑證並將結果匯入網頁瀏覽器中的憑證管理程式。
+
