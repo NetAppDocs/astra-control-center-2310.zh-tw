@@ -78,7 +78,6 @@
   <block id="35f3a2f7a0f2c01d03afedb95ece66ab" category="inline-link">NetApp驗證檔案上傳（需要登入）</block>
   <block id="1c2989d4329c8aeec5e01506816fb04e" category="list-text">使用<block ref="4b0bc63f683ccbf4dcf0ba2a6a1b561f" category="inline-link-rx"></block>。</block>
   <block id="94bcffc8ff8a109a8267202d2aaa5526" category="list-text">將套裝組合直接附加至nss.</block>
-  <block id="4345f2150d39e38a6a11ee7ee57bed28" category="list-text">使用NetApp Active IQ 解決方案。</block>
   <block id="5220375a520b7758aa31b8b43ce717fe" category="summary">Astra Control Provisioner 支援建立來源磁碟區和目的地磁碟區之間的鏡射關係、以複寫磁碟區以進行災難恢復。</block>
   <block id="50e2eea9ba53d70147772db1c5d25f79" category="doc">使用 SnapMirror 複寫磁碟區</block>
   <block id="d0182feabbbe0987e5c6aed407b4c2a7" category="paragraph">使用 Astra Control Provisioner 、您可以在一個叢集上的來源磁碟區和對等叢集上的目的地磁碟區之間建立鏡射關係、以便複寫資料以進行災難恢復。您可以使用命名的自訂資源定義（ CRD ）來執行下列作業：</block>
@@ -395,7 +394,6 @@
   <block id="90d397f2aa31c2e6d9f5dfda5d12adca" category="paragraph">Astra Control Center可在您自己的私有雲端本機執行。</block>
   <block id="95936e8fb1e1f6bf4c0671f4ccc84fe7" category="paragraph">Astra Control Center 支援 Kubernetes 叢集、搭配 Astra Trident 型儲存類別、以及 ONTAP 9.5 以上的儲存後端。</block>
   <block id="51269e2584d26b04961877ec77db6da7" category="paragraph">在雲端連線的環境中、Astra Control Center使用Cloud Insights 「資訊中心」來提供進階的監控和遙測功能。若缺乏Cloud Insights 支援鏈接、Astra Control Center可提供有限（7天數據）的監控與遙測功能、並透過開放式指標端點匯出至Kubernetes原生監控工具（例如Prometheus和Grafana）。</block>
-  <block id="ea2708b459fc0cad6936ec216bd9405e" category="paragraph">Astra Control Center已完全整合AutoSupport 至整套的功能、可Active IQ 為使用者和NetApp支援人員提供疑難排解和使用資訊。</block>
   <block id="e4a6d61b6602f5e6d6468645b096f45e" category="paragraph">您可以使用 90 天內嵌評估授權、試用 Astra Control Center 。在評估 Astra Control Center 時、您可以透過電子郵件和社群選項獲得支援。此外、您也可以從產品內的支援儀表板存取知識庫文章和文件。</block>
   <block id="b4851e92b19af0c5c82447fc0937709d" category="inline-link">需求</block>
   <block id="ebd65e27e034512530c808d2d0aa364d" category="paragraph">若要安裝及使用Astra Control Center、您必須符合特定需求<block ref="0a14e0fc52cf8d6c6274f9c6e777d67d" category="inline-link-rx"></block>。</block>
@@ -1765,7 +1763,6 @@
   <block id="6d55356ca8cb9b27cfa6e2bb46ebb089" category="example-title">回應範例：</block>
   <block id="3287973c50b09462bde24fe82b06c59b" category="list-text">確認Pod正在執行：</block>
   <block id="49442a4bf304a6a24081fc054a06ba5e" category="list-text">編輯Astra Control Center自訂資源（CR）：</block>
-  <block id="4bc1d1c42f12d420fb373e1a8d345a2d" category="list-text">變更Astra版本號碼 <block ref="bbdbf70444e48a34a4a7e7d708d85eec" prefix="(" category="inline-code"></block> 內部<block ref="b979c2934ac0b4ba3f08dabfdd1b2299" prefix=" " category="inline-code"></block>）升級至您要升級的版本：</block>
   <block id="41ff704de5d4377c40831a45f37b2f9c" category="list-text">確認您的映像登錄路徑符合您在中推送映像的登錄路徑 <block ref="7fe0e1ddcc2917e6a216033278119235" category="inline-xref-macro-rx"></block>。更新<block ref="990dc1a09e10c7b5378e6bc8a1956cb8" prefix=" " category="inline-code"></block> 內部<block ref="b979c2934ac0b4ba3f08dabfdd1b2299" prefix=" " category="inline-code"></block> 如果登錄自上次安裝後有所變更。</block>
   <block id="0721a4ab2e84ecf070923858d32930ec" category="list-text">將下列項目新增至<block ref="c16ae51f09d668b952e5ab23072ad64e" prefix=" " category="inline-code"></block> 的內部組態<block ref="b979c2934ac0b4ba3f08dabfdd1b2299" prefix=" " category="inline-code"></block>：</block>
   <block id="0f04760e138c3f7be6f489f1347dbf8c" category="list-text">在中新增下列行<block ref="9848fd54a26db3cbb32026fac4aa182a" prefix=" " category="inline-code"></block> 內部<block ref="b979c2934ac0b4ba3f08dabfdd1b2299" prefix=" " category="inline-code"></block> 在Astra Control Center CR：</block>
@@ -2503,7 +2500,6 @@ Astra Control 現在可以管理以 NVMe / TCP 連線的持續磁碟區為後盾
 附註：請勿使用<block ref="dbd7790bcd23fde7607101ef6a633779" prefix=" " category="inline-code"></block> 或<block ref="f8eae6750519389e078e1eb1bcb3d708" prefix=" " category="inline-code"></block> 地址中。複製此FQDN以供在中使用 <block ref="39c8566ec35b62823c898c5e38a4b78c" category="inline-xref-macro-rx"></block>。</block>
   <block id="a35d697fca562fcd8adcc6a07880b3d5" category="cell"><block ref="51c3153f8b9ad8f3a27b28d6c8f95aab" prefix="" category="inline-code"></block></block>
   <block id="16655bd6caa78814980ce90854a07356" category="example-title">&lt;code&gt;autoSupport&lt;/code&gt;</block>
-  <block id="7548d8cfdbba865da930704f30a7542f" category="paragraph">您在本節中的選擇決定您是否會參與NetApp主動式支援應用程式NetApp Active IQ 功能、以及資料的傳送位置。需要網際網路連線（連接埠4442）、所有支援資料都會匿名。</block>
   <block id="ad8783089f828b927473fb61d51940ec" category="cell">使用</block>
   <block id="60d9e21a93c21f0d9ec8e72e12270054" category="cell"><block ref="774a4ec4adf9dd65264c77b3b87833b7" prefix="" category="inline-code"></block></block>
   <block id="24b6133a8f6f0866838539b9ca41cfa7" category="cell">也可以<block ref="ff7af27948b380bff5d583359796d3c8" prefix=" " category="inline-code"></block> 或<block ref="572d4e421e5e6b9bc11d815e8a027112" prefix=" " category="inline-code"></block> 必須選取欄位</block>
@@ -3528,4 +3524,7 @@ Astra Trident 會在匯入和探索程序中自動安裝。</block>
   <block id="1fe917b01f9a3f87fa2d7d3b7643fac1" category="sidebar">常見問題集</block>
   <block id="424ceef1136fb58527f241d7cdf1c5e9" category="list-text">變更Astra版本號碼 <block ref="bbdbf70444e48a34a4a7e7d708d85eec" prefix="(" category="inline-code"></block> 內部<block ref="b979c2934ac0b4ba3f08dabfdd1b2299" prefix=" " category="inline-code"></block>）自<block ref="e43c70c154432522a389a51dc9db6b94" prefix=" " category="inline-code"></block> 至<block ref="84976609aebb6439476255d5ef8280bb" prefix=" " category="inline-code"></block>：</block>
   <block id="7f8303559ee1d0bdcb1d09fd27feaa43" category="admonition">您無法直接從目前版本之後的兩個或更多版本升級。如需已發行版本的完整清單、請參閱 <block ref="6828c83fc2e1f023c92b48e8acd1d196" category="inline-link-macro-rx"></block>。</block>
+  <block id="a9cf730f8ab04a5b52f1d19c74c1483c" category="paragraph">Astra Control Center 已完全整合至 AutoSupport 和 Active IQ 數位顧問（也稱為數位顧問）生態系統、為使用者和 NetApp 支援提供疑難排解和使用資訊。</block>
+  <block id="d89b38e0f587f8fa359a431abd35bb40" category="paragraph">您在本節中所做的選擇、決定您是否要參與 NetApp 的主動式支援應用程式、數位顧問、以及資料的傳送位置。需要網際網路連線（連接埠4442）、所有支援資料都會匿名。</block>
+  <block id="3cf9bc07c0ae31018d3336b8f32de6c8" category="list-text">使用 Digital Advisor 。</block>
 </blocks>
