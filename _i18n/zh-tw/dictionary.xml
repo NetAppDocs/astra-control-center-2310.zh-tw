@@ -2426,7 +2426,6 @@ Astra Control 現在可以管理以 NVMe / TCP 連線的持續磁碟區為後盾
   <block id="7c90d436f62a080a98e02874957865e0" category="inline-link-macro">這些程序</block>
   <block id="41bdd90cead20f2dddf0647e2f48fc13" category="list-text">*以Cloud Volumes ONTAP 支援功能的方式在公有雲上安裝*：使用 <block ref="cdbba4f6294205e74dc04d0ee99d1d1f" category="inline-link-macro-rx"></block> 若要在Amazon Web Services（AWS）、Google Cloud Platform（GCP）或Microsoft Azure中安裝Astra Control Center、並提供Cloud Volumes ONTAP 一套支援整合式儲存後端的功能。</block>
   <block id="201e09e85ad81db8a19ef9f20c05d1a5" category="inline-link">這段影片</block>
-  <block id="259f3be9b6c8eefb44e844c2b70333dc" category="paragraph">如需Astra Control Center安裝程序的示範、請參閱<block ref="cbbdec23221803dc148346abe5a297c0" category="inline-link-rx"></block>。</block>
   <block id="2b305f607904d67cd2da521366334e8c" category="inline-link-macro">開始安裝之前、請先準備好環境以進行Astra Control Center部署</block>
   <block id="748a7a1711b184c4e02102a84264406d" category="list-text">* 符合環境先決條件 * ： <block ref="689b20f2e0a9cb0a12bc48475b3f81ee" category="inline-link-macro-rx"></block>。</block>
   <block id="f96c06e8efd6770cb5f76e8c3aa4238f" category="admonition">在第三個故障網域或次要站台中部署 Astra Control Center 。這是應用程式複寫和無縫災難恢復的建議。</block>
@@ -3527,4 +3526,5 @@ Astra Trident 會在匯入和探索程序中自動安裝。</block>
   <block id="a9cf730f8ab04a5b52f1d19c74c1483c" category="paragraph">Astra Control Center 已完全整合至 AutoSupport 和 Active IQ 數位顧問（也稱為數位顧問）生態系統、為使用者和 NetApp 支援提供疑難排解和使用資訊。</block>
   <block id="d89b38e0f587f8fa359a431abd35bb40" category="paragraph">您在本節中所做的選擇、決定您是否要參與 NetApp 的主動式支援應用程式、數位顧問、以及資料的傳送位置。需要網際網路連線（連接埠4442）、所有支援資料都會匿名。</block>
   <block id="3cf9bc07c0ae31018d3336b8f32de6c8" category="list-text">使用 Digital Advisor 。</block>
+  <block id="285c7fb54a928cf8e9ca78a83740ce60" category="paragraph">如需 Astra Control Center 安裝程序的示範，請參閱<block ref="d97427b76746d487a682c110ed41c817" category="inline-link-rx"></block>。</block>
 </blocks>
